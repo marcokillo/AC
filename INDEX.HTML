@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>اتاق مرموز</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html,body{
+    width:100%;
+    min-height:100%;
+}
+
+body{
+    font-family:"Vazirmatn",sans-serif;
+    background:
+        radial-gradient(circle at center,#1b1b1b 0%,#090909 55%,#000 100%);
+    color:#eee;
+    overflow-x:hidden;
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:
+        radial-gradient(circle at 20% 30%,rgba(255,255,255,.035) 0 1px,transparent 2px),
+        radial-gradient(circle at 70% 60%,rgba(255,255,255,.025) 0 1px,transparent 2px),
+        radial-gradient(circle at 40% 80%,rgba(255,255,255,.02) 0 1px,transparent 2px);
+    background-size:150px 150px,190px 190px,230px 230px;
+    opacity:.8;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px 20px;
+}
+
+.door-container{
+    position:relative;
+    width:min(500px,90vw);
+    animation:doorAppear 1.5s ease;
+}
+
+.door{
+    width:100%;
+    display:block;
+    border-radius:10px;
+
+    box-shadow:
+        0 0 30px rgba(0,0,0,.9),
+        0 0 80px rgba(255,255,255,.04);
+
+    filter:brightness(.72);
+}
+
+@keyframes doorAppear{
+    from{
+        opacity:0;
+        transform:scale(.94);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+/* =========================
+   QUESTION BUTTON
+========================= */
+
+.question-btn{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+
+    width:72px;
+    height:72px;
+
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.5);
+
+    background:rgba(0,0,0,.72);
+    color:#fff;
+
+    font-size:38px;
+    font-weight:300;
+
+    cursor:pointer;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    box-shadow:
+        0 0 20px rgba(255,255,255,.15),
+        inset 0 0 20px rgba(255,255,255,.04);
+
+    transition:.3s;
+}
+
+.question-btn:hover{
+    transform:translate(-50%,-50%) scale(1.1);
+
+    background:rgba(0,0,0,.9);
+
+    box-shadow:
+        0 0 35px rgba(255,255,255,.25),
+        0 0 80px rgba(255,255,255,.08);
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+
+    display:none;
+    align-items:center;
+    justify-content:center;
+
+    padding:20px;
+
+    background:rgba(0,0,0,.84);
+
+    backdrop-filter:blur(8px);
+
+    z-index:1000;
+
+    overflow-y:auto;
+}
+
+.modal.active{
+    display:flex;
+    animation:fadeIn .35s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+    }
+    to{
+        opacity:1;
+    }
+}
+
+/* =========================
+   FIRST MODAL
+========================= */
+
+.modal-box{
+    position:relative;
+
+    width:min(650px,96vw);
+
+    max-height:92vh;
+    overflow-y:auto;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(25,25,25,.98),
+            rgba(7,7,7,.98)
+        );
+
+    border:1px solid rgba(255,255,255,.15);
+
+    border-radius:14px;
+
+    padding:25px;
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,.9),
+        0 0 50px rgba(255,255,255,.04);
+
+    animation:modalAppear .4s ease;
+}
+
+@keyframes modalAppear{
+    from{
+        opacity:0;
+        transform:translateY(25px) scale(.96);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+
+/* =========================
+   CLOSE
+========================= */
+
+.close{
+    position:absolute;
+
+    top:12px;
+    left:15px;
+
+    width:35px;
+    height:35px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(255,255,255,.2);
+
+    background:rgba(0,0,0,.7);
+
+    color:#fff;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    z-index:20;
+
+    transition:.25s;
+}
+
+.close:hover{
+    background:#222;
+    transform:rotate(90deg);
+}
+
+/* =========================
+   CLUE IMAGE
+========================= */
+
+.clue-image{
+    position:relative;
+    width:100%;
+    margin-bottom:25px;
+}
+
+.clue-image img{
+    width:100%;
+    display:block;
+
+    border-radius:10px;
+
+    box-shadow:
+        0 15px 50px rgba(0,0,0,.7);
+}
+
+/* SECOND QUESTION */
+
+.clue-question{
+    position:absolute;
+
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    width:65px;
+    height:65px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(255,255,255,.6);
+
+    background:rgba(0,0,0,.72);
+
+    color:#fff;
+
+    font-size:34px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    box-shadow:
+        0 0 25px rgba(255,255,255,.18);
+}
+
+.clue-question:hover{
+    transform:translate(-50%,-50%) scale(1.12);
+
+    box-shadow:
+        0 0 45px rgba(255,255,255,.3);
+}
+
+/* =========================
+   AUDIO STATUS
+========================= */
+
+.audio-status{
+    text-align:center;
+
+    color:#aaa;
+
+    font-size:13px;
+
+    min-height:25px;
+
+    margin-bottom:15px;
+}
+
+/* =========================
+   LOCK
+========================= */
+
+.lock-area{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.lock-label{
+    text-align:center;
+
+    color:#bbb;
+
+    font-size:14px;
+}
+
+#codeInput{
+    width:100%;
+
+    padding:14px;
+
+    border-radius:8px;
+
+    border:1px solid #333;
+
+    background:#0b0b0b;
+
+    color:#fff;
+
+    text-align:center;
+
+    font-size:20px;
+
+    letter-spacing:4px;
+
+    outline:none;
+
+    transition:.25s;
+}
+
+#codeInput:focus{
+    border-color:#777;
+
+    box-shadow:
+        0 0 20px rgba(255,255,255,.08);
+}
+
+#unlockBtn{
+    width:100%;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#191919;
+
+    color:#fff;
+
+    border:1px solid #444;
+
+    cursor:pointer;
+
+    font-family:inherit;
+
+    transition:.3s;
+}
+
+#unlockBtn:hover{
+    background:#292929;
+
+    box-shadow:
+        0 0 25px rgba(255,255,255,.08);
+}
+
+.error{
+    color:#b85c5c;
+
+    text-align:center;
+
+    font-size:13px;
+
+    min-height:20px;
+}
+
+/* ==================================================
+   STORY MODAL
+   IMAGE FIRST
+================================================== */
+
+.story-modal{
+    align-items:center;
+    justify-content:center;
+}
+
+/*
+    پاپ‌آپ سوم
+    ابتدا تصویر نمایش داده می‌شود
+*/
+
+.story-box{
+
+    position:relative;
+
+    width:min(950px,96vw);
+
+    max-height:94vh;
+
+    overflow-y:auto;
+
+    background:
+        linear-gradient(
+            145deg,
+            #151515,
+            #050505
+        );
+
+    border:1px solid rgba(255,255,255,.16);
+
+    border-radius:15px;
+
+    padding:18px;
+
+    box-shadow:
+        0 40px 120px rgba(0,0,0,.95);
+
+    animation:storyAppear .5s ease;
+}
+
+@keyframes storyAppear{
+
+    from{
+        opacity:0;
+        transform:scale(.94);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+/* =========================
+   FULL IMAGE
+========================= */
+
+.story-image-wrapper{
+    position:relative;
+
+    width:100%;
+
+    border-radius:10px;
+
+    overflow:hidden;
+
+    background:#000;
+}
+
+.story-image{
+
+    width:100%;
+
+    height:auto;
+
+    max-height:none;
+
+    display:block;
+
+    object-fit:contain;
+
+    border-radius:10px;
+
+    box-shadow:
+        0 15px 60px rgba(0,0,0,.8);
+}
+
+/* =========================
+   STORY REVEAL BUTTON
+========================= */
+
+.reveal-story{
+
+    position:absolute;
+
+    left:50%;
+    bottom:25px;
+
+    transform:translateX(-50%);
+
+    padding:12px 24px;
+
+    border-radius:30px;
+
+    border:1px solid rgba(255,255,255,.35);
+
+    background:rgba(0,0,0,.78);
+
+    color:#fff;
+
+    font-family:inherit;
+
+    font-size:14px;
+
+    cursor:pointer;
+
+    backdrop-filter:blur(8px);
+
+    transition:.3s;
+
+    box-shadow:
+        0 5px 30px rgba(0,0,0,.5);
+}
+
+.reveal-story:hover{
+
+    background:rgba(20,20,20,.95);
+
+    transform:translateX(-50%) scale(1.05);
+
+    box-shadow:
+        0 0 30px rgba(255,255,255,.12);
+}
+
+/* =========================
+   STORY CONTENT
+========================= */
+
+.story-content{
+
+    display:none;
+
+    margin-top:25px;
+
+    padding:25px;
+
+    border-top:1px solid rgba(255,255,255,.1);
+
+    animation:storyTextAppear .7s ease;
+}
+
+.story-content.visible{
+    display:block;
+}
+
+@keyframes storyTextAppear{
+
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.story-title{
+
+    text-align:center;
+
+    font-size:24px;
+
+    margin-bottom:20px;
+
+    color:#eee;
+
+    letter-spacing:1px;
+}
+
+.story-text{
+
+    color:#ccc;
+
+    font-size:16px;
+
+    line-height:2.25;
+
+    text-align:right;
+}
+
+.story-text p{
+    margin-bottom:18px;
+}
+
+.envelope-text{
+
+    margin-top:30px;
+
+    padding:18px;
+
+    border:1px solid rgba(255,255,255,.12);
+
+    border-radius:8px;
+
+    text-align:center;
+
+    color:#aaa;
+
+    background:rgba(255,255,255,.02);
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar{
+    width:7px;
+}
+
+::-webkit-scrollbar-track{
+    background:#050505;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#333;
+    border-radius:10px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:#555;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px){
+
+    .main{
+        padding:20px 12px;
+    }
+
+    .question-btn{
+        width:58px;
+        height:58px;
+
+        font-size:30px;
+    }
+
+    .modal{
+        padding:10px;
+    }
+
+    .modal-box{
+        padding:15px;
+
+        width:100%;
+
+        max-height:94vh;
+    }
+
+    .clue-question{
+        width:55px;
+        height:55px;
+
+        font-size:28px;
+    }
+
+    .story-box{
+        width:100%;
+
+        max-height:95vh;
+
+        padding:10px;
+
+        border-radius:10px;
+    }
+
+    .story-content{
+        padding:18px 8px;
+    }
+
+    .story-title{
+        font-size:20px;
+    }
+
+    .story-text{
+        font-size:14px;
+
+        line-height:2;
+    }
+
+    .reveal-story{
+        bottom:15px;
+
+        padding:10px 18px;
+
+        font-size:13px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     MAIN DOOR
+========================= -->
+
+<main class="main">
+
+    <div class="door-container">
+
+        <img
+            class="door"
+            src="deaeb857-851d-4a26-941a-574ce83446a4.png"
+            alt="در اتاق"
+        >
+
+        <button
+            class="question-btn"
+            id="openFirstModal"
+            aria-label="باز کردن سرنخ"
+        >
+            ?
+        </button>
+
+    </div>
+
+</main>
+
+
+<!-- ==================================================
+     MODAL 1
+================================================== -->
+
+<div
+    class="modal"
+    id="clueModal"
+>
+
+    <div class="modal-box">
+
+        <button
+            class="close"
+            id="closeClue"
+        >
+            ×
+        </button>
+
+        <div class="clue-image">
+
+            <img
+                src="image_gen_b2e323e8-2df0-41a9-98f6-b27ec153de7e_0.png"
+                alt="سرنخ"
+            >
+
+            <button
+                class="clue-question"
+                id="playClue"
+            >
+                ?
+            </button>
+
+        </div>
+
+        <div
+            class="audio-status"
+            id="audioStatus"
+        >
+            برای شنیدن سرنخ روی علامت سؤال کلیک کنید
+        </div>
+
+        <div class="lock-area">
+
+            <div class="lock-label">
+                رمز را وارد کنید
+            </div>
+
+            <input
+                type="text"
+                id="codeInput"
+                autocomplete="off"
+                placeholder="••••"
+                maxlength="20"
+            >
+
+            <button id="unlockBtn">
+                باز کردن قفل
+            </button>
+
+            <div
+                class="error"
+                id="errorMessage"
+            ></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================================
+     AUDIO
+================================================== -->
+
+<audio
+    id="clueAudio"
+    preload="auto"
+>
+
+    <source
+        src="ai_sada_output.mp3"
+        type="audio/mpeg"
+    >
+
+</audio>
+
+
+<!-- ==================================================
+     STORY MODAL
+================================================== -->
+
+<div
+    class="modal story-modal"
+    id="storyModal"
+>
+
+    <div class="story-box">
+
+        <button
+            class="close"
+            id="closeStory"
+        >
+            ×
+        </button>
+
+
+        <!--
+            مرحله اول:
+            فقط تصویر دیده می‌شود
+        -->
+
+        <div class="story-image-wrapper">
+
+            <img
+                class="story-image"
+                src="hlLFWiQjczcuhCKecuMZXj8rabU-iwoG8TkFSCud7EHXRhtrjw.png"
+                alt="اتاق"
+            >
+
+            <button
+                class="reveal-story"
+                id="revealStory"
+            >
+                ادامه ماجرا
+            </button>
+
+        </div>
+
+
+        <!--
+            مرحله دوم:
+            متن بعد از کلیک ظاهر می‌شود
+        -->
+
+        <div
+            class="story-content"
+            id="storyContent"
+        >
+
+            <h2 class="story-title">
+                اتاق
+            </h2>
+
+            <div class="story-text">
+
+                <p>
+                    پوآرو پس از چند ضربه کوتاه به در، وارد اتاق شد.
+                </p>
+
+                <p>
+                    پشت پنجره بزرگ اتاق، برف آرام و بی‌وقفه روی دامنه‌های سفید کوهستان می‌نشست و آسمان خاکستری روز، نور سرد و کم‌رنگی را به داخل می‌فرستاد.
+                </p>
+
+                <p>
+                    شومینه در گوشه اتاق روشن بود و شعله‌های زرد و نارنجی آن با صدایی آرام میان هیزم‌ها می‌رقصیدند. گرمای آتش فضای اتاق را دلپذیر کرده بود، اما با این وجود پنجره اندکی باز مانده بود و هر از گاهی نسیمی سرد پرده‌های کرم‌رنگ را به حرکت درمی‌آورد.
+                </p>
+
+                <p>
+                    برخلاف بسیاری از اتاق‌های هتل که ظاهری منظم و رسمی داشتند، این اتاق نشانه‌هایی از زندگی صاحبش را در خود حفظ کرده بود. چند کتاب روی میز کنار دیوار روی هم قرار گرفته بودند و کنار آن‌ها فنجانی نیمه‌خالی دیده می‌شد که بخار آن مدت‌ها پیش از بین رفته بود.
+                </p>
+
+                <p>
+                    چیزی که بیش از همه توجه را جلب می‌کرد، قاب عکس کوچکی بود که روی میز کنار شومینه قرار داشت. از فاصله‌ای که پوآرو ایستاده بود، تشخیص جزئیات عکس ممکن نبود. تخت خواب مرتب بود، اما پالتوی سنگینی روی صندلی کنار آن رها شده بود؛ گویی صاحب اتاق تنها چند دقیقه پیش آن را از تن درآورده باشد.
+                </p>
+
+                <p>
+                    سکوتی عجیب در فضا جریان داشت و تنها صدای ترک خوردن چوب‌های داخل شومینه آن را می‌شکست.
+                </p>
+
+                <p>
+                    پوآرو نیم‌نگاهی به توماس گلگر انداخت که مشغول تمیز کردن بخشی از اتاق خودش بود.
+                </p>
+
+                <div class="envelope-text">
+                    برای ادامه پاکت را باز کنید...
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const openFirstModal =
+    document.getElementById("openFirstModal");
+
+const clueModal =
+    document.getElementById("clueModal");
+
+const storyModal =
+    document.getElementById("storyModal");
+
+const closeClue =
+    document.getElementById("closeClue");
+
+const closeStory =
+    document.getElementById("closeStory");
+
+const playClue =
+    document.getElementById("playClue");
+
+const clueAudio =
+    document.getElementById("clueAudio");
+
+const audioStatus =
+    document.getElementById("audioStatus");
+
+const codeInput =
+    document.getElementById("codeInput");
+
+const unlockBtn =
+    document.getElementById("unlockBtn");
+
+const errorMessage =
+    document.getElementById("errorMessage");
+
+const revealStory =
+    document.getElementById("revealStory");
+
+const storyContent =
+    document.getElementById("storyContent");
+
+
+/* =========================
+   OPEN FIRST POPUP
+========================= */
+
+openFirstModal.addEventListener("click", () => {
+
+    clueModal.classList.add("active");
+
+});
+
+
+/* =========================
+   CLOSE CLUE
+========================= */
+
+closeClue.addEventListener("click", () => {
+
+    clueModal.classList.remove("active");
+
+    clueAudio.pause();
+
+});
+
+
+/* =========================
+   AUDIO
+========================= */
+
+playClue.addEventListener("click", async () => {
+
+    try{
+
+        if(clueAudio.paused){
+
+            await clueAudio.play();
+
+            playClue.textContent = "♪";
+
+            audioStatus.textContent =
+                "سرنخ در حال پخش است...";
+
+        }else{
+
+            clueAudio.pause();
+
+            playClue.textContent = "?";
+
+            audioStatus.textContent =
+                "پخش سرنخ متوقف شد.";
+
+        }
+
+    }catch(error){
+
+        audioStatus.textContent =
+            "فایل صوتی پیدا نشد یا امکان پخش آن وجود ندارد.";
+
+        console.error(error);
+
+    }
+
+});
+
+
+/* وقتی صدا تمام شد */
+
+clueAudio.addEventListener("ended", () => {
+
+    playClue.textContent = "?";
+
+    audioStatus.textContent =
+        "سرنخ به پایان رسید.";
+
+});
+
+
+/* =========================
+   PASSWORD
+========================= */
+
+function checkCode(){
+
+    const enteredCode =
+        codeInput.value.trim().toUpperCase();
+
+    if(enteredCode === "EVIL"){
+
+        errorMessage.textContent = "";
+
+        clueModal.classList.remove("active");
+
+        storyModal.classList.add("active");
+
+        /*
+            هر بار باز شدن داستان
+            متن هنوز مخفی است
+        */
+
+        storyContent.classList.remove("visible");
+
+        revealStory.style.display = "block";
+
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+
+    }else{
+
+        errorMessage.textContent =
+            "رمز اشتباه است...";
+
+        codeInput.value = "";
+
+        codeInput.focus();
+
+        codeInput.animate(
+            [
+                {transform:"translateX(0)"},
+                {transform:"translateX(-8px)"},
+                {transform:"translateX(8px)"},
+                {transform:"translateX(-5px)"},
+                {transform:"translateX(5px)"},
+                {transform:"translateX(0)"}
+            ],
+            {
+                duration:350
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================
+   UNLOCK
+========================= */
+
+unlockBtn.addEventListener(
+    "click",
+    checkCode
+);
+
+
+/* ENTER KEY */
+
+codeInput.addEventListener(
+    "keydown",
+    (event) => {
+
+        if(event.key === "Enter"){
+
+            checkCode();
+
+        }
+
+    }
+);
+
+
+/* =========================
+   REVEAL STORY
+========================= */
+
+revealStory.addEventListener(
+    "click",
+    () => {
+
+        storyContent.classList.add("visible");
+
+        revealStory.style.display = "none";
+
+        setTimeout(() => {
+
+            storyContent.scrollIntoView({
+                behavior:"smooth",
+                block:"start"
+            });
+
+        },100);
+
+    }
+);
+
+
+/* =========================
+   CLOSE STORY
+========================= */
+
+closeStory.addEventListener(
+    "click",
+    () => {
+
+        storyModal.classList.remove("active");
+
+        storyContent.classList.remove("visible");
+
+        revealStory.style.display = "block";
+
+    }
+);
+
+
+/* =========================
+   CLICK OUTSIDE
+========================= */
+
+clueModal.addEventListener(
+    "click",
+    (event) => {
+
+        if(event.target === clueModal){
+
+            clueModal.classList.remove("active");
+
+            clueAudio.pause();
+
+        }
+
+    }
+);
+
+
+storyModal.addEventListener(
+    "click",
+    (event) => {
+
+        if(event.target === storyModal){
+
+            storyModal.classList.remove("active");
+
+        }
+
+    }
+);
+
+
+/* =========================
+   ESCAPE
+========================= */
+
+document.addEventListener(
+    "keydown",
+    (event) => {
+
+        if(event.key === "Escape"){
+
+            clueModal.classList.remove("active");
+
+            storyModal.classList.remove("active");
+
+            clueAudio.pause();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
